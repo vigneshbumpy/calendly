@@ -1,38 +1,26 @@
-# Harbor Take Home Project
+Calendly Project
 
-Welcome to the Harbor take home project. We hope this is a good opportunity for you to showcase your skills.
+Let's break this down into steps:
 
-## The Challenge
+MVP Features:
+    - Set user availability
+    - Show user availability
+    - Find schedule overlap between 2 users
 
-Build us a REST API for calendly. Remember to support
+API Design
 
-- Setting own availability
-- Showing own availability
-- Finding overlap in schedule between 2 users
+/api/v1/users/<user_id>/availability
+GET: Get user's availability
+POST: Set user's availability
 
-It is up to you what else to support.
+/api/v1/schedule/overlap
+GET: Find overlap between two users' schedules
 
-## Expectations
+Data Model:
+We'll use a sql lite database for the MVP. 
+In a production environment, this would be replaced with a prod database.
 
-We care about
-
-- Have you thought through what a good MVP looks like? Does your API support that?
-- What trade-offs are you making in your design?
-- Working code - we should be able to pull and hit the code locally. Bonus points if deployed somewhere.
-- Any good engineer will make hacks when necessary - what are your hacks and why?
-
-We don't care about
-
-- Authentication
-- UI
-- Perfection - good and working quickly is better
-
-It is up to you how much time you want to spend on this project. There are likely diminishing returns as the time spent goes up.
-
-## Submission
-
-Please fork this repository and reach out to Prakash when finished.
-
-## Next Steps
-
-After submission, we will conduct a 30 to 60 minute code review in person. We will ask you about your thinking and design choices.
+Simple API implementation
+setUserAvailability(userId: String, slots: List<String)
+getUserAvailability(userId: String): List<String>
+getOverlap(userId1: String, userId2: String): List<String>
