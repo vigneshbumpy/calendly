@@ -1,4 +1,4 @@
-package model
+package com.calendly.model
 
 import javax.persistence.*
 

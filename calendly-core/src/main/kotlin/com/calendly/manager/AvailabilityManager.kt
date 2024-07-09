@@ -1,7 +1,7 @@
-package manager
+package com.calendly.manager
 
-import dal.AvailabilityDAL
-import model.User
+import com.calendly.dal.AvailabilityDAL
+import com.calendly.model.User
 import org.springframework.stereotype.Component
 
 @Component

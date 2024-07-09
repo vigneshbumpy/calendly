@@ -1,7 +1,7 @@
-package dao
+package com.calendly.dao
 
-import model.AvailabilitySlot
-import model.User
+import com.calendly.model.AvailabilitySlot
+import com.calendly.model.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
