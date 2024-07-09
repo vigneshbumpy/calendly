@@ -1,7 +1,7 @@
-package service
+package com.calendly.service
 
-import manager.AvailabilityManager
-import manager.UserManager
+import com.calendly.manager.AvailabilityManager
+import com.calendly.manager.UserManager
 import org.springframework.stereotype.Service
 import java.time.Instant
 

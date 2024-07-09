@@ -1,5 +1,5 @@
-package dao
-import model.User
+package com.calendly.dao
+import com.calendly.model.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository

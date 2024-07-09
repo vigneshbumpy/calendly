@@ -1,8 +1,7 @@
-package com.calendly
+package com.calendly.resource
 
-import org.springframework.boot.context.properties.bind.Bindable.mapOf
 import org.springframework.web.bind.annotation.*
-import service.CalendarService
+import com.calendly.service.CalendarService
 import java.time.Instant
 
 @RestController

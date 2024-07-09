@@ -16,7 +16,7 @@
     </modules>
     <properties>
         <java.version>11</java.version>
-        <kotlin.version>1.6.21</kotlin.version>
+        <kotlin.version>1.8.21</kotlin.version>
         <version.spring-boot>2.7.10</version.spring-boot>
     </properties>
     <packaging>pom</packaging>

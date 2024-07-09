@@ -1,8 +1,8 @@
-package dal
+package com.calendly.dal
 
-import dao.AvailabilityRepository
-import model.AvailabilitySlot
-import model.User
+import com.calendly.dao.AvailabilityRepository
+import com.calendly.model.AvailabilitySlot
+import com.calendly.model.User
 import org.springframework.stereotype.Component
 
 @Component
