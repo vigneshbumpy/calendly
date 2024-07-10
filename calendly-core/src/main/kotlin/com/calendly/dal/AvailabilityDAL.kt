@@ -1,20 +1,17 @@
 package com.calendly.dal
 
-import com.calendly.dao.AvailabilityRepository
-import com.calendly.model.AvailabilitySlot
-import com.calendly.model.User
+import com.calendly.dao.AvailabilityDao
+import com.calendly.model.Availability
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
-class AvailabilityDAL(private val availabilityRepository: AvailabilityRepository) {
-    fun setAvailability(user: User, slots: List<java.time.Instant>) {
-        availabilityRepository.deleteAll(availabilityRepository.findByUser(user))
-        availabilityRepository.saveAll(slots.map { AvailabilitySlot(user = user, startTime = it) })
+class AvailabilityDAL(private val repository: AvailabilityDao) {
+    fun saveAvailability(availability: Availability): Availability {
+        return repository.save(availability)
     }
 
-    fun getAvailability(user: User): List<java.time.Instant> =
-        availabilityRepository.findByUser(user).map { it.startTime }
-
-    fun findOverlap(user1: User, user2: User): List<java.time.Instant> =
-        availabilityRepository.findOverlap(user1, user2).map { it.startTime }
+    fun getAvailabilityByUserIdAndDateRange(emailId: String, start: LocalDateTime, end: LocalDateTime): List<Availability> {
+        return repository.findByEmailIdAndStartDateTimeBetween(emailId, start, end)
+    }
 }

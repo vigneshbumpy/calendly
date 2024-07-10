@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <kotlin.version>1.6.10</kotlin.version>
-        <app.main.class>com.calendly.CalendlyServiceKt</app.main.class>
+        <app.main.class>com.calendly.CalendarApplicationKt</app.main.class>
     </properties>
 
      <build>
