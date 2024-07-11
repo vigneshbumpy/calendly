@@ -10,10 +10,20 @@ import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import javax.sql.DataSource
 
+/**
+ * Jpa config
+ *
+ * @constructor Create empty Jpa config
+ */
 @Configuration
 @EnableTransactionManagement
 class JpaConfig {
 
+    /**
+     * Data source
+     *
+     * @return
+     */
     @Bean
     fun dataSource(): DataSource {
         val dataSource = DriverManagerDataSource()
@@ -22,6 +32,11 @@ class JpaConfig {
         return dataSource
     }
 
+    /**
+     * Entity manager factory
+     *
+     * @return
+     */
     @Bean
     fun entityManagerFactory(): LocalContainerEntityManagerFactoryBean {
         val em = LocalContainerEntityManagerFactoryBean()
@@ -41,6 +56,11 @@ class JpaConfig {
         return em
     }
 
+    /**
+     * Transaction manager
+     *
+     * @return
+     */
     @Bean
     fun transactionManager(): PlatformTransactionManager {
         val transactionManager = JpaTransactionManager()

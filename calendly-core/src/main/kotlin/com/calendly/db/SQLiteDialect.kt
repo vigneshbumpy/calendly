@@ -8,6 +8,11 @@ import org.hibernate.dialect.identity.IdentityColumnSupport
 import org.hibernate.dialect.identity.IdentityColumnSupportImpl
 import org.hibernate.type.StringType
 
+/**
+ * Sqlite dialect
+ *
+ * @constructor Create empty Sqlite dialect
+ */
 class SQLiteDialect : Dialect() {
     init {
         registerColumnType(java.sql.Types.BIT, "integer")
@@ -39,7 +44,9 @@ class SQLiteDialect : Dialect() {
         registerFunction("substring", StandardSQLFunction("substr", StringType.INSTANCE))
     }
 
+    @Deprecated("Deprecated in Java")
     override fun supportsLimit(): Boolean = true
+    @Deprecated("Deprecated in Java")
     override fun getLimitString(query: String, hasOffset: Boolean): String {
         return StringBuffer(query.length + 20).append(query)
             .append(if (hasOffset) " limit ? offset ?" else " limit ?")
