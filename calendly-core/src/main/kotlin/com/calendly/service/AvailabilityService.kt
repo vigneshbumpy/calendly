@@ -104,7 +104,7 @@ class AvailabilityService(
 
     private fun ensureUserExists(emailId: String) {
         if (userService.getUser(emailId) == null) {
-            userService.saveUser(emailId)
+            throw Exception("User $emailId does not exist")
         }
     }
 }

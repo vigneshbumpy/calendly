@@ -27,7 +27,11 @@ class UserResource(private val userService: UserService) {
     @PostMapping("/create")
     @ApiOperation("Create a User")
     fun createUser(@RequestParam emailId: String): ResponseEntity<User> {
-        val user = userService.saveUser(emailId)
+        var user = userService.getUser(emailId)
+        if(user != null) {
+            throw Exception("User Already Created")
+        }
+        user = userService.saveUser(emailId)
         return ResponseEntity.ok(user)
     }
 
