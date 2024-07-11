@@ -64,7 +64,7 @@ Question specific answer
   - Client Impl is not complete, wanted to expose client for other service. Took restapi route than a client 
   
 - Working code - we should be able to pull and hit the code locally. Bonus points if deployed somewhere.
-  - Yes working and deployed - <Update the prod server url here>
+  - Yes working and deployed - https://bdfc-152-58-232-250.ngrok-free.app/swagger-ui/
 - Any good engineer will make hacks when necessary - what are your hacks and why?
   - Had to make @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) rather than GenerationType.IDENTITY as the Identity is not working as expected
   - User table is just with email and id, need to add elobrate entity
