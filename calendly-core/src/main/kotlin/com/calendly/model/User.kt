@@ -2,6 +2,13 @@ package com.calendly.model
 
 import javax.persistence.*
 
+/**
+ * User
+ *
+ * @property id
+ * @property emailId
+ * @constructor Create empty User
+ */
 @Entity
 data class User(
     @Id

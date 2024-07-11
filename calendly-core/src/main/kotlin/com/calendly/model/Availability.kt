@@ -4,6 +4,15 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 
+/**
+ * Availability
+ *
+ * @property id
+ * @property emailId
+ * @property startDateTime
+ * @property endDateTime
+ * @constructor Create empty Availability
+ */
 @Entity
 data class Availability(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)

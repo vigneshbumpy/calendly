@@ -10,22 +10,49 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+/**
+ * Availability service
+ *
+ * @property availabilityManager
+ * @property userService
+ * @constructor Create empty Availability service
+ */
 @Service
 class AvailabilityService(
     private val availabilityManager: AvailabilityManager,
     private val userService: UserService
 ) {
+    /**
+     * Set availability
+     *
+     * @param emailId
+     * @param availabilities
+     * @return
+     */
     fun setAvailability(emailId: String, availabilities: List<Availability>): List<Availability> {
         ensureUserExists(emailId)
         return availabilityManager.setUserAvailability(emailId, availabilities)
     }
 
+    /**
+     * Get availability
+     *
+     * @param emailId
+     * @return
+     */
     fun getAvailability(emailId: String): List<Availability> {
         ensureUserExists(emailId)
         return availabilityManager.getUserAvailability(
             emailId = emailId)
     }
 
+    /**
+     * Find overlap
+     *
+     * @param userId1
+     * @param userId2
+     * @return
+     */
     fun findOverlap(userId1: String, userId2: String): List<TimeSlot> {
         ensureUserExists(userId1)
         ensureUserExists(userId2)

@@ -10,19 +10,38 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
+/**
+ * Availability resource
+ *
+ * @property availabilityService
+ * @constructor Create empty Availability resource
+ */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/availability")
 @Api(description = "Endpoints for managing user")
 class AvailabilityResource(private val availabilityService: AvailabilityService) {
 
-    @PostMapping("/availability/{emailId}")
+    /**
+     * Set availability
+     *
+     * @param emailId
+     * @param availabilities
+     * @return
+     */
+    @PostMapping("/set/{emailId}")
     @ApiOperation("Set availability for a user")
     fun setAvailability(@PathVariable emailId: String, @RequestBody availabilities: List<Availability>): ResponseEntity<List<Availability>> {
         val savedAvailabilities = availabilityService.setAvailability(emailId, availabilities)
         return ResponseEntity.ok(savedAvailabilities)
     }
 
-    @GetMapping("/availability/{emailId}")
+    /**
+     * Get availability
+     *
+     * @param emailId
+     * @return
+     */
+    @GetMapping("/get/{emailId}")
     @ApiOperation("Get availability for a user")
     fun getAvailability(
         @PathVariable emailId: String
@@ -31,7 +50,14 @@ class AvailabilityResource(private val availabilityService: AvailabilityService)
         return ResponseEntity.ok(availabilities)
     }
 
-    @GetMapping("/availability/overlap")
+    /**
+     * Find overlap
+     *
+     * @param emailId1
+     * @param emailId2
+     * @return
+     */
+    @GetMapping("/overlap")
     @ApiOperation("Find overlap in schedules between two users")
     fun findOverlap(
         @RequestParam emailId1: String,
