@@ -6,7 +6,9 @@ import com.calendly.model.Availability
 import com.calendly.model.TimeSlot
 import com.calendly.model.User
 import org.springframework.stereotype.Service
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Service
 class AvailabilityService(
@@ -18,16 +20,17 @@ class AvailabilityService(
         return availabilityManager.setUserAvailability(emailId, availabilities)
     }
 
-    fun getAvailability(emailId: String, start: LocalDateTime, end: LocalDateTime): List<Availability> {
+    fun getAvailability(emailId: String): List<Availability> {
         ensureUserExists(emailId)
-        return availabilityManager.getUserAvailability(emailId, start, end)
+        return availabilityManager.getUserAvailability(
+            emailId = emailId)
     }
 
-    fun findOverlap(userId1: String, userId2: String, start: LocalDateTime, end: LocalDateTime): List<TimeSlot> {
+    fun findOverlap(userId1: String, userId2: String): List<TimeSlot> {
         ensureUserExists(userId1)
         ensureUserExists(userId2)
-        val availability1 = getAvailability(userId1, start, end)
-        val availability2 = getAvailability(userId2, start, end)
+        val availability1 = getAvailability(userId1)
+        val availability2 = getAvailability(userId2)
 
         return findOverlapUsingXOR(availability1, availability2)
     }
@@ -59,8 +62,8 @@ class AvailabilityService(
     }
 
     private fun ensureUserExists(emailId: String) {
-        if (userService.getUser(emailId) != null) {
-            userService.saveUser(User(emailId = emailId))
+        if (userService.getUser(emailId) == null) {
+            userService.saveUser(emailId)
         }
     }
 }
