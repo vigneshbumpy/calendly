@@ -56,37 +56,51 @@ class AvailabilityService(
     fun findOverlap(userId1: String, userId2: String): List<TimeSlot> {
         ensureUserExists(userId1)
         ensureUserExists(userId2)
-        val availability1 = getAvailability(userId1)
-        val availability2 = getAvailability(userId2)
+        val availability1 = getAvailability(userId1).map { TimeSlot(it.startDateTime, it.endDateTime) }
+        val availability2 = getAvailability(userId2).map { TimeSlot(it.startDateTime, it.endDateTime) }
 
-        return findOverlapUsingXOR(availability1, availability2)
+        return findOverlapAvailability(availability1, availability2)
     }
 
-    private fun findOverlapUsingXOR(availability1: List<Availability>, availability2: List<Availability>): List<TimeSlot> {
-        val timeSlots = mutableListOf<TimeSlot>()
-        val timePoints = (availability1 + availability2).flatMap { listOf(it.startDateTime, it.endDateTime) }.distinct().sorted()
+    fun findOverlapAvailability(availability1: List<TimeSlot>, availability2: List<TimeSlot>): List<TimeSlot> {
+        val events = mutableListOf<Event>()
 
-        var isOverlap = false
-        var lastDateTime: LocalDateTime? = null
+        // Add start and end events for both users
+        for (slot in availability1) {
+            events.add(Event(slot.startTime, 1, true))
+            events.add(Event(slot.endTime, 1, false))
+        }
+        for (slot in availability2) {
+            events.add(Event(slot.startTime, 2, true))
+            events.add(Event(slot.endTime, 2, false))
+        }
 
-        for (time in timePoints) {
-            val isInSlot1 = availability1.any { it.startDateTime <= time && time < it.endDateTime }
-            val isInSlot2 = availability2.any { it.startDateTime <= time && time < it.endDateTime }
+        // Sort events by time
+        events.sortBy { it.time }
 
-            val newOverlap = isInSlot1 xor isInSlot2.not()
+        val overlaps = mutableListOf<TimeSlot>()
+        var user1Active = false
+        var user2Active = false
+        var overlapStart: LocalDateTime? = null
 
-            if (newOverlap xor isOverlap) {
-                if (newOverlap) {
-                    lastDateTime = time
-                } else {
-                    timeSlots.add(TimeSlot(lastDateTime!!, time))
-                }
-                isOverlap = newOverlap
+        for (event in events) {
+            when {
+                event.userId == 1 -> user1Active = event.isStart
+                event.userId == 2 -> user2Active = event.isStart
+            }
+
+            if (user1Active && user2Active && overlapStart == null) {
+                overlapStart = event.time
+            } else if ((!user1Active || !user2Active) && overlapStart != null) {
+                overlaps.add(TimeSlot(overlapStart, event.time))
+                overlapStart = null
             }
         }
 
-        return timeSlots
+        return overlaps
     }
+
+    data class Event(val time: LocalDateTime, val userId: Int, val isStart: Boolean)
 
     private fun ensureUserExists(emailId: String) {
         if (userService.getUser(emailId) == null) {
