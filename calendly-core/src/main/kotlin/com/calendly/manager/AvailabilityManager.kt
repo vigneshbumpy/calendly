@@ -22,7 +22,7 @@ class AvailabilityManager(
 
     }
 
-    fun getUserAvailability(emailId: String, start: LocalDateTime, end: LocalDateTime): List<Availability> {
-        return availabilityDAL.getAvailabilityByUserIdAndDateRange(emailId, start, end)
+    fun getUserAvailability(emailId: String): List<Availability> {
+        return availabilityDAL.getAvailabilityByEmailId(emailId)
     }
 }

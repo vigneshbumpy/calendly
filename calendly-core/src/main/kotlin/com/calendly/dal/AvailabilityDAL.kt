@@ -6,12 +6,18 @@ import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 @Component
-class AvailabilityDAL(private val repository: AvailabilityDao) {
+class AvailabilityDAL(
+    private val availabilityDao: AvailabilityDao
+) {
     fun saveAvailability(availability: Availability): Availability {
-        return repository.save(availability)
+        return availabilityDao.save(availability)
     }
 
     fun getAvailabilityByUserIdAndDateRange(emailId: String, start: LocalDateTime, end: LocalDateTime): List<Availability> {
-        return repository.findByEmailIdAndStartDateTimeBetween(emailId, start, end)
+        return availabilityDao.findByEmailIdAndStartDateTimeBetween(emailId, start, end)
+    }
+
+    fun getAvailabilityByEmailId(emailId: String): List<Availability> {
+        return availabilityDao.findByEmailId(emailId)
     }
 }

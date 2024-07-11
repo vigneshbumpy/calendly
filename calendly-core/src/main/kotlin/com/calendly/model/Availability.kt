@@ -5,17 +5,16 @@ import javax.persistence.*
 
 
 @Entity
-@Table(name = "availabilities")
 data class Availability(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    val id: Int? = 0,
 
     @Column(nullable = false)
-    val emailId: String,
+    val emailId: String = "",
 
     @Column(nullable = false)
-    val startDateTime: LocalDateTime,
+    val startDateTime: LocalDateTime = LocalDateTime.now(),
 
     @Column(nullable = false)
-    val endDateTime: LocalDateTime
+    val endDateTime: LocalDateTime = LocalDateTime.now()
 )

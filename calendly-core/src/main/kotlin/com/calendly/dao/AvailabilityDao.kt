@@ -8,4 +8,5 @@ import java.time.LocalDateTime
 @Repository
 interface AvailabilityDao : JpaRepository<Availability, Long> {
     fun findByEmailIdAndStartDateTimeBetween(emailId: String, start: LocalDateTime, end: LocalDateTime): List<Availability>
+    fun findByEmailId(emailId: String): List<Availability>
 }
