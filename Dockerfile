@@ -31,4 +31,8 @@ COPY --from=build /app/calendly-service/target/calendly-service-1.0-SNAPSHOT.jar
 EXPOSE 8080
 
 # Specify the command to run your application
-ENTRYPOINT ["java", "-XX:+HeapDumpOnOutOfMemoryError", "-Xmx512m", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:+HeapDumpOnOutOfMemoryError", "-Xmx2048m", "-jar", "app.jar"]
+
+# Health check to ensure the container is running properly
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8000/healthcheck || exit 1
