@@ -1,9 +1,7 @@
 package com.calendly.resource
 
-import com.calendly.model.User
+import com.calendly.model.CalendlyUser
 import com.calendly.service.UserService
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*
  */
 @RestController
 @RequestMapping("/api/users")
-@Api(description = "Endpoints for managing user")
 class UserResource(private val userService: UserService) {
 
     /**
@@ -25,11 +22,10 @@ class UserResource(private val userService: UserService) {
      * @return User Object
      */
     @PostMapping("/create")
-    @ApiOperation("Create a User")
-    fun createUser(@RequestParam emailId: String): ResponseEntity<User> {
+    fun createUser(@RequestParam emailId: String): ResponseEntity<CalendlyUser> {
         var user = userService.getUser(emailId)
         if(user != null) {
-            throw Exception("User Already Created")
+            ResponseEntity.notFound()
         }
         user = userService.saveUser(emailId)
         return ResponseEntity.ok(user)
@@ -42,8 +38,7 @@ class UserResource(private val userService: UserService) {
      * @return User Object
      */
     @GetMapping("/get/{emailId}")
-    @ApiOperation("Get a User")
-    fun getUser(@PathVariable emailId: String): ResponseEntity<User> {
+    fun getUser(@PathVariable emailId: String): ResponseEntity<CalendlyUser> {
         val user = userService.getUser(emailId)
         return if (user != null) ResponseEntity.ok(user) else ResponseEntity.notFound().build()
     }

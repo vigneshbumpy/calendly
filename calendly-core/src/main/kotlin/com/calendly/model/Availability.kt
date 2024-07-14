@@ -1,7 +1,7 @@
 package com.calendly.model
 
 import java.time.LocalDateTime
-import javax.persistence.*
+import jakarta.persistence.*
 
 
 /**

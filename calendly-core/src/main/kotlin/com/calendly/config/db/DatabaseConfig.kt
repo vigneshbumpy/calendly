@@ -1,4 +1,5 @@
-package com.calendly.db
+/*
+package com.calendly.config.db
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,4 +15,4 @@ class DatabaseConfig {
         dataSource.url = "jdbc:sqlite:calendly.db"
         return dataSource
     }
-}
+}*/

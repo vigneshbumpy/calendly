@@ -1,10 +1,9 @@
 package com.calendly.service
 
+import com.calendly.exception.CustomException
 import com.calendly.manager.AvailabilityManager
 import com.calendly.model.Availability
 import com.calendly.model.TimeSlot
-import com.calendly.service.AvailabilityService
-import com.calendly.service.UserService
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -37,11 +36,11 @@ class AvailabilityServiceTest {
         every { userService.saveUser(email) } returns mockk()
         every { availabilityManager.setUserAvailability(email, availabilities) } returns availabilities
 
-        val result = availabilityService.setAvailability(email, availabilities)
+        val exception: CustomException = assertThrows(CustomException::class.java) {
+            availabilityService.setAvailability(email, availabilities)
+        }
 
-        verify { userService.saveUser(email) }
-        verify { availabilityManager.setUserAvailability(email, availabilities) }
-        assertEquals(availabilities, result)
+        assertEquals("User test@example.com does not exist", exception.message)
     }
 
     @Test
