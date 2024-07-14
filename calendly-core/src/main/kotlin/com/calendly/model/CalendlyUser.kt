@@ -1,6 +1,6 @@
 package com.calendly.model
 
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * User
@@ -10,7 +10,7 @@ import javax.persistence.*
  * @constructor Create empty User
  */
 @Entity
-data class User(
+data class CalendlyUser(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Int? = 0,

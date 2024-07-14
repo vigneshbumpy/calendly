@@ -1,14 +1,11 @@
 package com.calendly.service
 
+import com.calendly.exception.CustomException
 import com.calendly.manager.AvailabilityManager
-import com.calendly.manager.UserManager
 import com.calendly.model.Availability
 import com.calendly.model.TimeSlot
-import com.calendly.model.User
 import org.springframework.stereotype.Service
-import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 
 /**
  * Availability service
@@ -104,7 +101,7 @@ class AvailabilityService(
 
     private fun ensureUserExists(emailId: String) {
         if (userService.getUser(emailId) == null) {
-            throw Exception("User $emailId does not exist")
+            throw CustomException("User $emailId does not exist")
         }
     }
 }

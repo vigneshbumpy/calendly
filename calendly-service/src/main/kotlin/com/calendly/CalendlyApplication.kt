@@ -2,22 +2,30 @@ package com.calendly
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import springfox.documentation.swagger2.annotations.EnableSwagger2
+import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.scheduling.annotation.EnableScheduling
 
 /**
  * Calendly application
  *
  * @constructor Create empty Calendly application
  */
+
+
 @SpringBootApplication
-@EnableSwagger2
+@EnableAsync
 class CalendlyApplication
+
 
 /**
  * SpringBoot CalendlyApplication Main
  *
+ *
  * @param args
  */
 fun main(args: Array<String>) {
-    runApplication<CalendlyApplication>(*args)
+    val context = runApplication<CalendlyApplication>(*args)
+    Runtime.getRuntime().addShutdownHook(Thread {
+        println("Application is shutting down")
+    })
 }

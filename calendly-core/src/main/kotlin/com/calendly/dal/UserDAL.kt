@@ -2,7 +2,7 @@ package com.calendly.dal
 
 
 import com.calendly.dao.UserDao
-import com.calendly.model.User
+import com.calendly.model.CalendlyUser
 import org.springframework.stereotype.Component
 
 /**
@@ -21,15 +21,15 @@ class UserDAL(
      * @param emailId
      * @return
      */
-    fun findByEmailId(emailId: String): User? =
+    fun findByEmailId(emailId: String): CalendlyUser? =
         userDao.findByEmailId(emailId)
 
     /**
      * Save
      *
-     * @param user
+     * @param calendlyUser
      * @return
      */
-    fun save(user: User): User = userDao.save(user)
+    fun save(calendlyUser: CalendlyUser): CalendlyUser = userDao.save(calendlyUser)
 
 }

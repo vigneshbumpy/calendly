@@ -1,9 +1,7 @@
 package com.calendly.service
 
-import com.calendly.dal.UserDAL
-import com.calendly.dao.UserDao
 import com.calendly.manager.UserManager
-import com.calendly.model.User
+import com.calendly.model.CalendlyUser
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -24,7 +22,7 @@ class UserService(
      * @param emailId
      * @return
      */
-    fun getUser(emailId: String): User? {
+    fun getUser(emailId: String): CalendlyUser? {
         return userManager.getUser(emailId)
     }
 
@@ -35,7 +33,7 @@ class UserService(
      * @return
      */
     @Transactional
-    fun saveUser(emailId: String): User {
+    fun saveUser(emailId: String): CalendlyUser {
         return userManager.createUser(emailId)
     }
 }
