@@ -19,4 +19,5 @@ class GlobalExceptionHandler {
     }
 
     // You can add more exception handlers here for other types of exceptions
-}*/
+}
+*/

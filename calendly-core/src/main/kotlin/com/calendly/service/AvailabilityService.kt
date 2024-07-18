@@ -5,7 +5,6 @@ import com.calendly.manager.AvailabilityManager
 import com.calendly.model.Availability
 import com.calendly.model.TimeSlot
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 /**
  * Availability service
@@ -53,6 +52,7 @@ class AvailabilityService(
     fun findOverlap(userId1: String, userId2: String): List<TimeSlot> {
         ensureUserExists(userId1)
         ensureUserExists(userId2)
+        //todo: This can be improved by just selecting the availability > than current data time or a custom date time of the caller
         val availability1 = getAvailability(userId1).map { TimeSlot(it.startDateTime, it.endDateTime) }
         val availability2 = getAvailability(userId2).map { TimeSlot(it.startDateTime, it.endDateTime) }
 
@@ -60,44 +60,42 @@ class AvailabilityService(
     }
 
     fun findOverlapAvailability(availability1: List<TimeSlot>, availability2: List<TimeSlot>): List<TimeSlot> {
-        val events = mutableListOf<Event>()
-
-        // Add start and end events for both users
-        for (slot in availability1) {
-            events.add(Event(slot.startTime, 1, true))
-            events.add(Event(slot.endTime, 1, false))
-        }
-        for (slot in availability2) {
-            events.add(Event(slot.startTime, 2, true))
-            events.add(Event(slot.endTime, 2, false))
-        }
-
-        // Sort events by time
-        events.sortBy { it.time }
-
         val overlaps = mutableListOf<TimeSlot>()
-        var user1Active = false
-        var user2Active = false
-        var overlapStart: LocalDateTime? = null
 
-        for (event in events) {
-            when {
-                event.userId == 1 -> user1Active = event.isStart
-                event.userId == 2 -> user2Active = event.isStart
-            }
+        for (slot1 in availability1) {
+            for (slot2 in availability2) {
+                val overlapStart = maxOf(slot1.startTime, slot2.startTime)
+                val overlapEnd = minOf(slot1.endTime, slot2.endTime)
 
-            if (user1Active && user2Active && overlapStart == null) {
-                overlapStart = event.time
-            } else if ((!user1Active || !user2Active) && overlapStart != null) {
-                overlaps.add(TimeSlot(overlapStart, event.time))
-                overlapStart = null
+                if (overlapStart < overlapEnd) {
+                    overlaps.add(TimeSlot(overlapStart, overlapEnd))
+                }
             }
         }
 
-        return overlaps
+        return mergeOverlappingSlots(overlaps)
     }
 
-    data class Event(val time: LocalDateTime, val userId: Int, val isStart: Boolean)
+    fun mergeOverlappingSlots(slots: List<TimeSlot>): List<TimeSlot> {
+        if (slots.isEmpty()) return emptyList()
+
+        val sortedSlots = slots.sortedBy { it.startTime }
+        val mergedSlots = mutableListOf<TimeSlot>()
+        var currentSlot = sortedSlots[0]
+
+        for (i in 1 until sortedSlots.size) {
+            val nextSlot = sortedSlots[i]
+            if (currentSlot.endTime >= nextSlot.startTime) {
+                currentSlot = TimeSlot(currentSlot.startTime, maxOf(currentSlot.endTime, nextSlot.endTime))
+            } else {
+                mergedSlots.add(currentSlot)
+                currentSlot = nextSlot
+            }
+        }
+        mergedSlots.add(currentSlot)
+
+        return mergedSlots
+    }
 
     private fun ensureUserExists(emailId: String) {
         if (userService.getUser(emailId) == null) {
